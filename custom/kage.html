@@ -394,10 +394,20 @@ body.card-slide-open .nav{
 }
 body:not(.card-slide-open) .nav{ transition:opacity .45s var(--ease); }
 body.card-slide-open .page{ visibility:hidden; }
+.card-slide{
+  display:block; overflow-y:auto; padding:clamp(92px,12vh,132px) var(--pad) clamp(34px,6vh,72px);
+}
+.card-slide-inner{ width:min(100%,1120px); margin:0 auto; }
+.card-slide-heading{ margin:0 0 clamp(28px,5vh,54px); }
+.card-slide-kicker{
+  display:flex; align-items:center; gap:12px; margin-bottom:16px;
+  color:var(--bone-dim); font-size:10px; letter-spacing:.24em; text-transform:uppercase;
+}
+.card-slide-kicker::before{ content:''; width:22px; height:1px; background:var(--ember); }
 .card-slide-title{
-  width:min(100%, 1400px); margin:0 auto;
-  font-family:'Wordmark','Onest',sans-serif; font-size:clamp(34px,6.4vw,104px);
-  font-weight:600; line-height:.98; letter-spacing:.035em; text-align:center;
+  width:100%; margin:0;
+  font-family:'Wordmark','Onest',sans-serif; font-size:clamp(34px,5.8vw,82px);
+  font-weight:600; line-height:1.02; letter-spacing:.025em; text-align:left;
   text-wrap:balance; text-transform:uppercase;
   background:linear-gradient(180deg,#e2ece5 0%,#c6d6cb 52%,#96aa9d 100%);
   -webkit-background-clip:text; background-clip:text; color:transparent;
@@ -406,6 +416,31 @@ body.card-slide-open .page{ visibility:hidden; }
   transition:opacity .8s var(--ease-out) .12s, transform .9s var(--ease-out) .12s;
 }
 .card-slide.is-open .card-slide-title{ opacity:1; transform:none; }
+.card-slide-deck{ display:none; grid-template-columns:minmax(0,1.45fr) minmax(230px,.75fr); gap:clamp(24px,5vw,72px); align-items:start; }
+.card-slide-deck.is-active{ display:grid; animation:deck-enter .7s var(--ease-out) both; }
+@keyframes deck-enter{ from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
+.deck-main{ min-width:0; }
+.deck-lead{ max-width:66ch; margin:0 0 26px; color:#d0d9d2; font-size:clamp(16px,1.45vw,20px); line-height:1.72; font-weight:300; }
+.deck-block{ padding:20px 0; border-top:1px solid var(--line); }
+.deck-block h2{ margin:0 0 9px; color:var(--bone); font-size:12px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; }
+.deck-block p{ max-width:68ch; margin:0; color:#aebbb2; font-size:14px; line-height:1.78; font-weight:300; }
+.deck-aside{
+  position:relative; padding:24px 22px 22px;
+  border:1px solid rgba(223,231,224,.16); background:linear-gradient(145deg,rgba(223,231,224,.075),rgba(5,7,10,.18));
+}
+.deck-aside::before{ content:''; position:absolute; top:-1px; left:22px; width:34px; height:1px; background:var(--ember); }
+.deck-aside .eyebrow{ margin-bottom:18px; }
+.deck-aside strong{ display:block; margin-bottom:12px; color:var(--bone); font-size:clamp(22px,2.3vw,30px); line-height:1.12; font-weight:300; }
+.deck-aside p{ margin:0; color:#aebbb2; font-size:13px; line-height:1.75; font-weight:300; }
+.deck-sources{ display:flex; flex-wrap:wrap; gap:8px 16px; margin-top:24px; }
+.deck-sources a{ color:rgba(223,231,224,.55); font-size:9px; letter-spacing:.13em; text-transform:uppercase; text-decoration:none; border-bottom:1px solid rgba(223,231,224,.2); padding-bottom:4px; }
+.deck-sources a:hover{ color:var(--bone); border-color:var(--bone); }
+@media(max-width:760px){
+  .card-slide{ padding:100px 22px 34px; }
+  .card-slide-deck,.card-slide-deck.is-active{ grid-template-columns:1fr; gap:24px; }
+  .deck-aside{ max-width:none; }
+  .card-slide-title{ font-size:clamp(32px,10vw,56px); }
+}
 .card-slide-back{
   position:absolute; top:clamp(24px,4vw,56px); left:var(--pad); z-index:2;
   display:inline-flex; align-items:center; gap:12px;
@@ -1109,7 +1144,6 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
 </section>
 
 <div class="card-slide" id="card-slide" aria-hidden="true">
-  <h1 class="card-slide-title display" id="card-slide-title"></h1>
   <button class="card-slide-back" type="button" aria-label="Back to home" data-cursor>
     <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10.5 3.5 6 8l4.5 4.5M6.5 8H14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     <span>Back to home</span>
@@ -1117,6 +1151,81 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
   <button class="card-slide-close" type="button" aria-label="Close slide" data-cursor>
     <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 3l8 8M11 3 3 11" stroke="currentColor" stroke-width="1.2"/></svg>
   </button>
+  <div class="card-slide-inner">
+    <header class="card-slide-heading">
+      <div class="card-slide-kicker" id="card-slide-kicker">01 / THE HUMAN EDGE</div>
+      <h1 class="card-slide-title display" id="card-slide-title"></h1>
+    </header>
+
+    <section class="card-slide-deck" data-deck="0" aria-hidden="true">
+      <div class="deck-main">
+        <p class="deck-lead">A machine can recognise a face, detect a change in tone, or generate a comforting response. But recognising an emotion is not the same as feeling it — and responding politely is not the same as understanding someone’s life.</p>
+        <div class="deck-block">
+          <h2>Reading emotion vs. feeling it</h2>
+          <p>AI can identify patterns in language, facial movement and behaviour, then predict what response may be useful. That can support people in customer service, accessibility and healthcare. But the system is working from data and probabilities; it does not share a person’s lived experience.</p>
+        </div>
+        <div class="deck-block">
+          <h2>Where human empathy matters</h2>
+          <p>Care often depends on context: trust, culture, vulnerability, personal history and the ability to take responsibility. In sensitive settings, AI can assist with information and routine support, while people remain involved in decisions that affect dignity, safety and wellbeing.</p>
+        </div>
+        <div class="deck-sources">
+          <a href="https://www.who.int/publications/i/item/9789240029200" target="_blank" rel="noopener">WHO · AI in health</a>
+          <a href="https://www.unesco.org/en/legal-affairs/recommendation-ethics-artificial-intelligence" target="_blank" rel="noopener">UNESCO · Human oversight</a>
+        </div>
+      </div>
+      <aside class="deck-aside">
+        <div class="eyebrow">The human distinction</div>
+        <strong>Understanding a signal is not the same as understanding a person.</strong>
+        <p>Use AI to extend our ability to notice and respond — not to remove human care, accountability or connection from the moments that need them most.</p>
+      </aside>
+    </section>
+
+    <section class="card-slide-deck" data-deck="1" aria-hidden="true">
+      <div class="deck-main">
+        <p class="deck-lead">What happens when a machine built to obey begins to question its orders? <em>Detroit: Become Human</em> turns that question into an interactive story — and asks players to decide where personhood, freedom and responsibility begin.</p>
+        <div class="deck-block">
+          <h2>Three androids. Three perspectives.</h2>
+          <p>Connor is designed to assist police investigations. Kara is a domestic android whose bond with a child drives her to protect someone beyond her assigned role. Markus becomes a leader in a movement demanding freedom. Their stories put obedience, care and collective action into conflict.</p>
+        </div>
+        <div class="deck-block">
+          <h2>A thought experiment, not a forecast</h2>
+          <p>The game is fiction, not evidence that today's AI is conscious or that androids will develop feelings. Its value is as a mirror: it lets us examine how humans define intelligence, rights and moral responsibility when something appears human but is treated as a tool.</p>
+        </div>
+        <div class="deck-sources">
+          <a href="https://www.quanticdream.com/en/detroit-become-human/press-center" target="_blank" rel="noopener">Quantic Dream · Game overview</a>
+          <a href="https://blog.playstation.com/archive/2018/03/01/quantic-dreams-neo-noir-thriller-detroit-become-human-hits-ps4-on-25th-may/" target="_blank" rel="noopener">PlayStation · Characters</a>
+        </div>
+      </div>
+      <aside class="deck-aside">
+        <div class="eyebrow">The question it leaves us</div>
+        <strong>If something acts human, what do we owe it?</strong>
+        <p>The story does not settle the debate. It makes the player confront the assumptions behind the words “human”, “machine” and “choice”.</p>
+      </aside>
+    </section>
+
+    <section class="card-slide-deck" data-deck="2" aria-hidden="true">
+      <div class="deck-main">
+        <p class="deck-lead">The future of work is not simply a contest between people and machines. AI changes tasks: some are automated, some are accelerated, and new responsibilities emerge around the technology itself.</p>
+        <div class="deck-block">
+          <h2>Jobs change task by task</h2>
+          <p>OECD research describes three forces happening together: automation of existing tasks, creation of new tasks and occupations, and productivity improvements. Exposure to AI does not automatically mean an entire job can be automated. The effect depends on the work, the context and how organisations deploy the tools.</p>
+        </div>
+        <div class="deck-block">
+          <h2>Adaptability becomes a core skill</h2>
+          <p>As tools evolve, people need to keep learning: digital and AI literacy help us use technology; critical thinking helps us question its output; creativity, communication and collaboration help us apply it to real problems. Reskilling is not a one-time event — it is an ongoing habit.</p>
+        </div>
+        <div class="deck-sources">
+          <a href="https://www.oecd.org/en/publications/skills-in-the-ai-age_972bd15e-en/full-report/component-4.html" target="_blank" rel="noopener">OECD · Skills in the AI age</a>
+          <a href="https://www.oecd.org/content/dam/oecd/en/publications/reports/2024/11/how-is-ai-changing-the-way-workers-perform-their-jobs-and-the-skills-they-require_842aa075/8dc62c72-en.pdf" target="_blank" rel="noopener">OECD · Skills at work</a>
+        </div>
+      </div>
+      <aside class="deck-aside">
+        <div class="eyebrow">The advantage</div>
+        <strong>Don't compete with every new tool. Learn how to work with it.</strong>
+        <p>Adaptability is the ability to notice change, learn what matters, question the result and move your skills toward the problems only people can define.</p>
+      </aside>
+    </section>
+  </div>
 </div>
 
 <!-- ============================================================ chapter III -->
@@ -4450,16 +4559,24 @@ function wireNav() {
 function wireCardSlides() {
   const slide = $('#card-slide');
   const title = $('#card-slide-title');
+  const kicker = $('#card-slide-kicker');
+  const decks = $('[data-deck]');
   const back = $('.card-slide-back');
   const close = $('.card-slide-close');
   let previousScroll = 0;
   const openSlide = card => {
     previousScroll = window.scrollY;
+    const index = Number(card.dataset.view || 0);
     const label = card.querySelector('.card-lab b');
     title.textContent = label ? label.textContent.trim() : '';
-    /* Reuse the opening castle camera view; the document copy is hidden while
-       the live Three.js scene remains visible behind this title-only surface. */
+    kicker.textContent = String(index + 1).padStart(2, '0') + ' / ' + ['THE HUMAN EDGE','A FICTIONAL FUTURE','THE SKILLS AHEAD'][index];
+    decks.forEach((deck, i) => {
+      const active = i === index;
+      deck.classList.toggle('is-active', active);
+      deck.setAttribute('aria-hidden', active ? 'false' : 'true');
+    });
     window.scrollTo(0, anchors[1] || 0);
+    slide.scrollTop = 0;
     slide.classList.add('is-open');
     slide.setAttribute('aria-hidden', 'false');
     document.body.classList.add('card-slide-open');
@@ -4469,9 +4586,13 @@ function wireCardSlides() {
     slide.classList.remove('is-open');
     slide.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('card-slide-open');
+    decks.forEach(deck => {
+      deck.classList.remove('is-active');
+      deck.setAttribute('aria-hidden', 'true');
+    });
     window.scrollTo(0, previousScroll);
   };
-  $$('#cards .card').forEach(card => {
+  $('#cards .card').forEach(card => {
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
     card.addEventListener('click', () => openSlide(card));
