@@ -4640,7 +4640,7 @@ function wireCardSlides() {
     INTRO.t0 = performance.now();
     tPrev = performance.now();
   };
-  $('#cards .card').forEach(card => {
+  $$('#cards .card').forEach(card => {
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
     card.addEventListener('click', () => openSlide(card));
