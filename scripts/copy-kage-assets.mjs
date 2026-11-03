@@ -5,6 +5,7 @@ const source = path.resolve(
   "node_modules/@designcodeio/threeui/lib-dist/assets/landing-pages"
 );
 const destination = path.resolve("public/landing-pages");
+const customKage = path.resolve("custom/kage.html");
 
 try {
   await access(path.join(source, "kage.html"));
@@ -15,4 +16,7 @@ try {
 
 await mkdir(destination, { recursive: true });
 await cp(source, destination, { recursive: true });
-console.log("Copied official ThreeUI landing-page assets to public/landing-pages.");
+// Restore the repository-owned presentation after copying the package assets.
+// The package copy contains the original demo and would otherwise overwrite it.
+await cp(customKage, path.join(destination, "kage.html"));
+console.log("Copied ThreeUI assets and restored the customized KAGE landing page.");
