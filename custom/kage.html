@@ -4446,7 +4446,7 @@ function wireCardSlides() {
     document.body.classList.remove('card-slide-open');
     window.scrollTo(0, previousScroll);
   };
-  $('#cards .card').forEach(card => {
+  $$('#cards .card').forEach(card => {
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
     card.addEventListener('click', () => openSlide(card));
