@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import "@designcodeio/threeui/style.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "KAGE — Rishi's Portfolio",
-  description: "A portfolio shaped by stillness, motion, and the unseen.",
+  title: "Kage — Where stillness reveals the unseen",
+  description: "A five-chapter night walk through a Kyoto mountain temple.",
 };
 
 export default function RootLayout({
