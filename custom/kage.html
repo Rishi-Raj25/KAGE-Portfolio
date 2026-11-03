@@ -4560,7 +4560,7 @@ function wireCardSlides() {
   const slide = $('#card-slide');
   const title = $('#card-slide-title');
   const kicker = $('#card-slide-kicker');
-  const decks = $('[data-deck]');
+  const decks = $$('[data-deck]');
   const back = $('.card-slide-back');
   const close = $('.card-slide-close');
   let previousScroll = 0;
@@ -4592,7 +4592,7 @@ function wireCardSlides() {
     });
     window.scrollTo(0, previousScroll);
   };
-  $('#cards .card').forEach(card => {
+  $$('#cards .card').forEach(card => {
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
     card.addEventListener('click', () => openSlide(card));
