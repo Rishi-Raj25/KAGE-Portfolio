@@ -4679,7 +4679,7 @@ function wireCardSlides() {
   slide.addEventListener('transitionend', e => {
     if (e.target === slide && e.propertyName === 'opacity' && closing) finishClose();
   });
-  $('#cards .card').forEach(card => {
+  $$('#cards .card').forEach(card => {
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
     card.addEventListener('click', () => openSlide(card));
