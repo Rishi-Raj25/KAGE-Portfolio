@@ -17,7 +17,7 @@ export default function Home() {
     <main className="kage-host" data-ready={ready ? "true" : "false"}>
       <iframe
         className="kage-document"
-        title="Kage — Where stillness reveals the unseen"
+        title="KAGE — Can Robots Replace Humans?"
         src="/landing-pages/kage.html"
         loading="eager"
         allow="autoplay; fullscreen; picture-in-picture"
