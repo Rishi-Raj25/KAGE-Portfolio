@@ -4629,9 +4629,18 @@ function wireCardSlides() {
       });
       closeTimer = null;
     }, REDUCE ? 0 : 740);
-    window.scrollTo(0, previousScroll);
+    /* Return to the opening KAGE hero and replay its original cinematic
+       dolly/wordmark reveal instead of resuming midway through the scroll. */
+    window.scrollTo(0, 0);
+    RIG.prog = 0;
+    RIG.smooth = 0;
+    RIG.intro = 0;
+    WORD.reveal = 0;
+    fadeIn = 0;
+    INTRO.t0 = performance.now();
+    tPrev = performance.now();
   };
-  $$('#cards .card').forEach(card => {
+  $('#cards .card').forEach(card => {
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
     card.addEventListener('click', () => openSlide(card));
