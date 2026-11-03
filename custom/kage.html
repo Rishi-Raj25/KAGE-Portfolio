@@ -391,10 +391,10 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
   transition-delay:0s;
 }
 .card-slide.is-closing{ opacity:0; pointer-events:none; }
-.card-slide.is-closing .card-slide-inner{ animation:slide-content-out 1.35s cubic-bezier(.7,0,.2,1) both; }
-@keyframes slide-content-out{
-  to{ opacity:0; transform:translate3d(0,12px,0); filter:blur(3px); }
-}
+/* The deck owns its exit. Do not animate the inner wrapper as well:
+   nested opacity/transform keyframes were competing and causing the close to hitch. */
+.card-slide.is-closing .card-slide-inner{ animation:none; }
+
 /* Keep the global header behind the chapter surface as a quiet background detail. */
 body.card-slide-open .nav{
   opacity:.14; pointer-events:none;
@@ -442,12 +442,22 @@ body.card-slide-open .page{ visibility:hidden; }
 .card-slide-deck.is-active .deck-block:nth-of-type(2){ animation-delay:.62s; }
 .card-slide-deck.is-active .deck-aside{ animation-delay:.52s; }
 .card-slide-deck.is-active .deck-sources{ animation-delay:.82s; }
-.card-slide.is-closing .card-slide-deck.is-active{ animation:deck-exit 1.15s cubic-bezier(.7,0,.2,1) both; }
-.card-slide.is-closing .card-slide-deck.is-active > *{ animation:deck-piece-out 1.05s cubic-bezier(.7,0,.2,1) both; }
+.card-slide.is-closing .card-slide-deck.is-active{
+  animation:none;
+  opacity:0; transform:translate3d(0,14px,0); filter:blur(4px);
+  transition:opacity 1.1s cubic-bezier(.7,0,.2,1),
+             transform 1.2s cubic-bezier(.7,0,.2,1),
+             filter 1.1s cubic-bezier(.7,0,.2,1);
+}
+.card-slide.is-closing .card-slide-deck.is-active > *{
+  animation:none !important;
+  opacity:0; transform:translate3d(0,10px,0); filter:blur(4px);
+  transition:opacity .9s cubic-bezier(.7,0,.2,1),
+             transform 1s cubic-bezier(.7,0,.2,1),
+             filter .95s cubic-bezier(.7,0,.2,1);
+}
 @keyframes deck-enter{ from{opacity:0;transform:translate3d(0,22px,0);filter:blur(4px)} to{opacity:1;transform:none;filter:none} }
 @keyframes deck-piece-in{ from{opacity:0;transform:translate3d(0,18px,0);filter:blur(3px)} to{opacity:1;transform:none;filter:none} }
-@keyframes deck-piece-out{ to{opacity:0;transform:translate3d(0,14px,0);filter:blur(5px)} }
-@keyframes deck-exit{ to{opacity:0;transform:translate3d(0,16px,0);filter:blur(4px)} }
 .deck-main{ min-width:0; }
 .deck-lead{ max-width:66ch; margin:0 0 26px; color:#d0d9d2; font-size:clamp(16px,1.45vw,20px); line-height:1.72; font-weight:300; }
 .deck-block{ padding:20px 0; border-top:1px solid var(--line); }
@@ -4639,7 +4649,7 @@ function wireCardSlides() {
       });
       document.body.classList.remove('card-slide-open');
       closeTimer = null;
-    }, REDUCE ? 0 : 1650);
+    }, REDUCE ? 0 : 1500);
   };
   $$('#cards .card').forEach(card => {
     card.setAttribute('role', 'button');
