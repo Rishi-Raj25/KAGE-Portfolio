@@ -1,33 +1,5 @@
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  min-height: 100%;
-  margin: 0;
-  background: #080808;
-}
-
-body {
-  color: #f5f3ef;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.kage-page {
-  min-height: 100svh;
-  width: 100%;
-  overflow: hidden;
-  background: #080808;
-}
-
-.shader-frame {
-  position: relative;
-  width: 100%;
-  min-height: 100svh;
-  overflow: hidden;
-}
-
-.shader-frame > * {
-  max-width: 100%;
-}
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #05070a; }
+body { min-height: 100dvh; }
+.kage-host { position: fixed; inset: 0; width: 100%; height: 100dvh; overflow: hidden; background: #05070a; }
+.kage-document { display: block; width: 100%; height: 100%; border: 0; background: #05070a; }
