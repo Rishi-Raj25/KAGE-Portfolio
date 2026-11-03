@@ -1,22 +1,29 @@
 "use client";
 
-import { KageLandingPage } from "@designcodeio/threeui";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const frame = document.querySelector<HTMLIFrameElement>(".kage-document");
+    if (!frame) return;
+    const markReady = () => setReady(true);
+    frame.addEventListener("load", markReady);
+    return () => frame.removeEventListener("load", markReady);
+  }, []);
+
   return (
-    <main className="kage-page">
-      <div className="shader-frame">
-        <KageLandingPage
-          headingFont="onest"
-          bodyFont="onest"
-          headingWeight="400"
-          bodyWeight="300"
-          primaryColor="#e0231c"
-          headingSize={46}
-          bodySize={17}
-          headingLetterSpacing={-0.012}
-        />
-      </div>
+    <main className="kage-host" data-ready={ready ? "true" : "false"}>
+      <iframe
+        className="kage-document"
+        title="Kage — Where stillness reveals the unseen"
+        src="/landing-pages/kage.html"
+        loading="eager"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowFullScreen
+        sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-downloads allow-popups allow-popups-to-escape-sandbox"
+      />
     </main>
   );
 }
