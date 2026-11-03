@@ -400,6 +400,20 @@ body.card-slide-open .page{ visibility:hidden; }
   transition:opacity .8s var(--ease-out) .12s, transform .9s var(--ease-out) .12s;
 }
 .card-slide.is-open .card-slide-title{ opacity:1; transform:none; }
+.card-slide-back{
+  position:absolute; top:clamp(24px,4vw,56px); left:var(--pad); z-index:2;
+  display:inline-flex; align-items:center; gap:12px;
+  min-height:40px; padding:0 16px 0 12px;
+  border:1px solid var(--line); border-radius:999px;
+  color:var(--bone-dim); background:rgba(5,7,10,.22);
+  font-size:10px; font-weight:500; letter-spacing:.18em; text-transform:uppercase;
+  transition:color .35s,border-color .35s,background .35s,transform .45s var(--ease-out);
+}
+.card-slide-back:hover{
+  color:var(--bone); border-color:rgba(223,231,224,.5);
+  background:rgba(5,7,10,.5); transform:translateX(-3px);
+}
+.card-slide-back svg{ width:14px; height:14px; flex:none; }
 .card-slide-close{
   position:absolute; top:clamp(24px,4vw,56px); right:var(--pad);
   width:34px; height:34px; display:grid; place-items:center;
@@ -1090,6 +1104,10 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
 
 <div class="card-slide" id="card-slide" aria-hidden="true">
   <h1 class="card-slide-title display" id="card-slide-title"></h1>
+  <button class="card-slide-back" type="button" aria-label="Back to home" data-cursor>
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10.5 3.5 6 8l4.5 4.5M6.5 8H14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>Back to home</span>
+  </button>
   <button class="card-slide-close" type="button" aria-label="Close slide" data-cursor>
     <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 3l8 8M11 3 3 11" stroke="currentColor" stroke-width="1.2"/></svg>
   </button>
@@ -4426,6 +4444,7 @@ function wireNav() {
 function wireCardSlides() {
   const slide = $('#card-slide');
   const title = $('#card-slide-title');
+  const back = $('.card-slide-back');
   const close = $('.card-slide-close');
   let previousScroll = 0;
   const openSlide = card => {
@@ -4438,7 +4457,7 @@ function wireCardSlides() {
     slide.classList.add('is-open');
     slide.setAttribute('aria-hidden', 'false');
     document.body.classList.add('card-slide-open');
-    close.focus({ preventScroll: true });
+    back.focus({ preventScroll: true });
   };
   const closeSlide = () => {
     slide.classList.remove('is-open');
@@ -4454,6 +4473,7 @@ function wireCardSlides() {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSlide(card); }
     });
   });
+  back.addEventListener('click', closeSlide);
   close.addEventListener('click', closeSlide);
   slide.addEventListener('click', e => { if (e.target === slide) closeSlide(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && slide.classList.contains('is-open')) closeSlide(); });
