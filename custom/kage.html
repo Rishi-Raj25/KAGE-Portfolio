@@ -4421,7 +4421,7 @@ function wireCardSlides() {
     slide.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('card-slide-open');
   };
-  $('#cards .card').forEach(card => {
+  $$('#cards .card').forEach(card => {
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
     card.addEventListener('click', openSlide);
