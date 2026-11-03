@@ -471,6 +471,24 @@ body.card-slide-open .page{ visibility:hidden; }
 .deck-aside .eyebrow{ margin-bottom:18px; }
 .deck-aside strong{ display:block; margin-bottom:12px; color:var(--bone); font-size:clamp(22px,2.3vw,30px); line-height:1.12; font-weight:300; }
 .deck-aside p{ margin:0; color:#aebbb2; font-size:13px; line-height:1.75; font-weight:300; }
+/* Keep the chapter copy clear of the fixed lower foreground wall.
+   The wall belongs to the page scene, not the three topic-reading panels. */
+body.card-slide-open .fg[data-fg="pathways"]{
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+.card-slide-deck .deck-main,
+.card-slide-deck .deck-aside{ position:relative; z-index:1; }
+.card-slide-deck .deck-lead,
+.card-slide-deck .deck-block p,
+.card-slide-deck .deck-aside p{ color:#d2ddd5; }
+.card-slide-deck .deck-block{ border-color:rgba(223,231,224,.22); }
+.card-slide-deck .deck-aside{
+  background:linear-gradient(145deg,rgba(12,18,19,.94),rgba(5,7,10,.92));
+  border-color:rgba(223,231,224,.22);
+  box-shadow:0 18px 60px rgba(0,0,0,.22);
+}
 .deck-sources{ display:flex; flex-wrap:wrap; gap:8px 16px; margin-top:24px; }
 .deck-sources a{ color:rgba(223,231,224,.55); font-size:9px; letter-spacing:.13em; text-transform:uppercase; text-decoration:none; border-bottom:1px solid rgba(223,231,224,.2); padding-bottom:4px; }
 .deck-sources a:hover{ color:var(--bone); border-color:var(--bone); }
